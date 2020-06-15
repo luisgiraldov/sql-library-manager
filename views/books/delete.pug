@@ -1,0 +1,20 @@
+extends ../layout.pug
+
+block content
+    form(method="post", action=`/books/${book.id}/delete` onsubmit="return confirm('Do you really want to DELETE this book?');")
+        p
+            label(for="title") Title
+            input(name="title", type="text", id="title", disabled="disabled", value=`${book.title}`)
+        p
+            label(for="author") Author
+            input(name="author", type="text", id="author", disabled="disabled", value=`${book.author}`)
+        p
+            label(for="genre") Genre
+            input(name="genre", type="text", id="genre", disabled="disabled", value=`${book.genre}`)
+        p
+            label(for="year") Year
+            input(name="year", type="text", id="year", disabled="disabled", value=`${book.year}`)
+        p
+            input(type="submit", value="Delete Book")
+        p
+            a.button(href="/") Cancel 

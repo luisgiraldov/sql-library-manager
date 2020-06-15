@@ -26,6 +26,7 @@ app.use('/books', books);
 app.use((req,res,next) => {
     const err = new Error("Not found!");
     err.status = 404;
+    err.title = "Page Not Found!";
     next(err);
 });
 
@@ -34,7 +35,9 @@ app.use((err, req, res, next)=>{
     res.locals.error = err;
     res.locals.image = "/static/images/not-found.jpg";
     res.status(err.status);
-    res.render("error");
+    err.title ? "" : err.title = "Error!";
+    console.log(err);
+    res.render("books/page_not_found", {error: err.status, title: err.title});
 });
 console.log("App running on port: " + port);
 app.listen(port);
