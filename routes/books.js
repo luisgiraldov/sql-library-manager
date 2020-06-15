@@ -15,7 +15,7 @@ function asyncHandler(cb){
 
 router.get('/', asyncHandler(async (req, res) => {
   const books = await Book.findAll();
-  res.render("books/all_books", { books, title: "Books" });
+  res.render("books/index", { books, title: "Books" });
 }));
 
 /** Get New book's form */
