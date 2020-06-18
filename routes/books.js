@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models').Book;
-
+const { Op } = require('sequelize'); 
 /* Handler function to wrap each route. */
 function asyncHandler(cb){
     return async(req, res, next) => {
@@ -13,6 +13,7 @@ function asyncHandler(cb){
     }
 }
 
+/* Get All books */
 router.get('/', asyncHandler(async (req, res) => {
   const books = await Book.findAll();
   res.render("index", { books, title: "Books" });
@@ -28,15 +29,42 @@ router.post('/new', asyncHandler(async (req, res) => {
   let book;
   try {
     book = await Book.create(req.body);
-    res.redirect("/books/" + book.id);
+    res.redirect("/books");
   } catch (error) {
     if(error.name === "SequelizeValidationError") {
       book = await Book.build(req.body);
-      console.log(error.errors[0].message);
       res.render("books/form_error", { book, errors: error.errors, title: "New Book" })
     } else {
       throw error;
     }  
+  }
+}));
+
+/**Search Bar */
+router.get('/search', asyncHandler(async (req, res) => {
+  const books = await Book.findAll({
+    where: {
+      [Op.or]: {
+        title: {
+          [Op.like]: `%${req.query.search}%`
+        },
+        author: {
+          [Op.like]: `%${req.query.search}%`
+        },
+        genre: {
+          [Op.like]: `%${req.query.search}%`
+        },
+        year: {
+          [Op.like]: `%${req.query.search}%`
+        }
+      }
+    }
+  });
+
+  if(books) {
+    res.render("index", { books, title: "Books" })
+  } else {
+    res.status(404).render("books/page_not_found", { error: 404, title: "Page Not Found!" });
   }
 }));
 
@@ -57,7 +85,7 @@ router.post('/:id', asyncHandler(async (req, res) => {
     book = await Book.findByPk(req.params.id);
     if(book) {
       await book.update(req.body);
-      res.redirect("/books/" + book.id); 
+      res.redirect("/books"); 
     } else {
       res.status(404).render("books/page_not_found", { error: 404, title: "Page Not Found!" });
     }
@@ -92,6 +120,5 @@ router.post('/:id/delete', asyncHandler(async (req ,res) => {
     res.status(404).render("books/page_not_found", { error: 404, title: "Page Not Found!" });
   }
 }));
-
 
 module.exports = router;

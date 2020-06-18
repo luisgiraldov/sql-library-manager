@@ -1,7 +1,7 @@
 extends ../layout.pug
 
 block content
-    form
+    form(method="post", action=`/books/new` onsubmit="return confirm('Do you really want to CREATE this book?');")
         h2.error Oooops!
         ul.error
             each error in errors
