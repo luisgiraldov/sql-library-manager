@@ -112,3 +112,8 @@ button.button {
   /* display: flex;
   justify-content: flex-end; */
 }
+
+.stringMatched{
+  /* background-color: #dcdcdc; */
+  background-color: #cccccc;
+}

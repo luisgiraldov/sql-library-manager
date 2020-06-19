@@ -42,26 +42,60 @@ router.post('/new', asyncHandler(async (req, res) => {
 
 /**Search Bar */
 router.get('/search', asyncHandler(async (req, res) => {
-  const books = await Book.findAll({
+  const booksList = await Book.findAll({
     where: {
       [Op.or]: {
         title: {
-          [Op.like]: `%${req.query.search}%`
+          [Op.like]: `%${req.query.search.trim()}%`
         },
         author: {
-          [Op.like]: `%${req.query.search}%`
+          [Op.like]: `%${req.query.search.trim()}%`
         },
         genre: {
-          [Op.like]: `%${req.query.search}%`
+          [Op.like]: `%${req.query.search.trim()}%`
         },
         year: {
-          [Op.like]: `%${req.query.search}%`
+          [Op.like]: `%${req.query.search.trim()}%`
         }
       }
     }
   });
 
-  if(books) {
+  if(booksList) {
+    let books = [];
+    //regex to find match on query
+    const regexForSelection = new RegExp(`${req.query.search}`, "i");
+    booksList.forEach(book => {
+      //get the information from every query returned by the database
+      let thisBook = {
+        title: book.title,
+        author: book.author,
+        genre: book.genre,
+        year: book.year
+      };
+      let found = "";
+      let stringMatched = "";
+      //test which column matches the query
+      if(regexForSelection.test(thisBook.title)){
+        //get the characters that match the query
+        found = thisBook.title.match(regexForSelection);
+        //add the span tags to highlight the match
+        stringMatched = thisBook.title.replace(found[0], `<span class="js-stringMatched stringMatched">${found[0]}</span>`);
+        //update the column with the text and the span tags inside
+        thisBook.title = stringMatched;
+      } else if(regexForSelection.test(thisBook.author)){
+        found = thisBook.author.match(regexForSelection);
+        stringMatched = thisBook.author.replace(found[0], `<span class="js-stringMatched stringMatched">${found[0]}</span>`);
+        thisBook.author = stringMatched;
+      } else if(regexForSelection.test(thisBook.genre)){
+        found = thisBook.genre.match(regexForSelection);
+        stringMatched = thisBook.genre.replace(found[0], `<span class="js-stringMatched stringMatched">${found[0]}</span>`);
+        thisBook.genre = stringMatched;
+      }
+      books.push(thisBook);
+    });
+
+    console.log(books);
     res.render("index", { books, title: "Books" })
   } else {
     res.status(404).render("books/page_not_found", { error: 404, title: "Page Not Found!" });
