@@ -8,14 +8,19 @@ html
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:400,700')
     link(rel='stylesheet', href='/static/stylesheets/style.css')
   body
-    header
-      h1= title
-      form(method="get", action=`/books/search/`)
-        if title!="Books"
-          input(name="search", type="search", id="search-input")
-        else
-          input(name="search", type="search", id="search-input", class="search-input")
-        button(type='submit', class="button") Search
-        //- input(name="submit-button", type="submit", value="Search" id="search-submit" class="search-submit")
-    div.container
-      block content
+    div.main-container
+      header
+        h1= title
+        form(method="get", action=`/books/search/`, id="search-form")
+          if title!="Books"
+            input(name="search", type="search", id="search-input")
+          else
+            if(inputValue)
+              input(name="search", type="search", id="search-input", class="search-input", value=`${inputValue}`)
+            else
+              input(name="search", type="search", id="search-input", class="search-input")
+          button(type='submit', class="button") Search
+      div.container
+        block content
+    
+    script(src='/static/js/main.js')

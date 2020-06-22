@@ -1,5 +1,4 @@
 extends layout.pug
-
 block content 
     p
         a.button(href="/books/new") Create New Book
@@ -18,3 +17,8 @@ block content
                     td !{book.author}
                     td !{book.genre}
                     td= book.year
+    //- div.pagination
+    //-     each book in books
+    //-         a(href="#")
+
+                    

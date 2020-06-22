@@ -68,6 +68,7 @@ router.get('/search', asyncHandler(async (req, res) => {
     booksList.forEach(book => {
       //get the information from every query returned by the database
       let thisBook = {
+        id: book.id,
         title: book.title,
         author: book.author,
         genre: book.genre,
@@ -96,7 +97,7 @@ router.get('/search', asyncHandler(async (req, res) => {
     });
 
     console.log(books);
-    res.render("index", { books, title: "Books" })
+    res.render("index", { books, title: "Books", inputValue: req.query.search });
   } else {
     res.status(404).render("books/page_not_found", { error: 404, title: "Page Not Found!" });
   }
