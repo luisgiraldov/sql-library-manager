@@ -33,10 +33,8 @@ app.use((req,res,next) => {
 //if an error is passed to the middleware, the middleware will look for this and it will render the error template (THIS IS THE ERROR HANDLER)
 app.use((err, req, res, next)=>{
     res.locals.error = err;
-    res.locals.image = "/static/images/not-found.jpg";
     res.status(err.status);
     err.title ? "" : err.title = "Error!";
-    console.log(err);
     res.render("books/page_not_found", {error: err.status, title: err.title});
 });
 console.log("App running on port: " + port);
