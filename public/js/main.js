@@ -1,3 +1,6 @@
+/***
+* Client side logic to add pagination links and display certain amount of books per page
+***/
 (() => {
     const searchForm = document.getElementById("search-form");
     const searchInput = document.getElementById("search-input");
@@ -5,34 +8,31 @@
 
     let inputValue = "";
     searchForm.addEventListener("submit", (event) => {
-        console.log(searchInput.value);
         inputValue = searchInput.value;
     });
 
     /***
     * `paginationCallback` function
     * @param {Object} e - holds the value of the event object
-    * @param {NodeList, Array} - holds a list of students to pass to showPage when a link is clicked along with the page number
     * removes the active class from all the anchor tags.
     * later adds the active class to the element who triggered the event.
-    * calls the showPage function to display students based on the page selected
+    * calls the showPage function to display books based on the page selected
     ***/
-    function paginationCallback(e, list) {
+    function paginationCallback(e) {
         e.preventDefault();
-           const anchors = document.querySelectorAll("[data-pagination]");
-           for(let i = 0, len = anchors.length; i < len; i++){
-              anchors[i].classList.remove("active");
-           }
-  
-           e.target.classList.add("active");
-           showPage(e.target.textContent);
+        const anchors = document.querySelectorAll("[data-pagination]");
+        for(let i = 0, len = anchors.length; i < len; i++){
+            anchors[i].classList.remove("active");
+        }
+
+        e.target.classList.add("active");
+        showPage(e.target.textContent);
     }
 
     /***
     * `showPage` function
-    * @param {NodeList} list - holds the list of all students, if it is empty display message to user
     * @param {Number} page - holds the index of the current page
-    * Display (items_per_page) number of students on the page
+    * Display (items_per_page) number of books on the page
     ***/
     function showPage(page) {
         const start_index = (page * items_per_page) - items_per_page;
@@ -49,11 +49,10 @@
 
     /***
     * `appendPageLinks` function
-    * @param {NodeList} list - holds the list of the students to calculate how many links (pages) are going to be needed
-    * Calls createElem function. With the elements returned, append them to the page
+    * Create and append the pagination links to the main container
     ***/
     function appendPageLinks() {
-        const body = document.getElementsByTagName("body")[0];
+        const mainContainer = document.querySelector(".main-container-js");
         const divPagination = document.createElement('DIV');
         divPagination.classList.add("pagination");
         const list = document.querySelector("tbody").children;
@@ -72,12 +71,15 @@
             divPagination.appendChild(a);
         }
 
-        body.appendChild(divPagination);
+        mainContainer.appendChild(divPagination);
     }
 
-    appendPageLinks();
-    // paginationCount();
-    showPage(1);
-    
-
+    /***
+    * If the page contains a table (table of books in this case), call the function to create pagination links 
+    * and display the required number of books per page.
+    ***/
+    if(document.querySelector("tbody")){
+        appendPageLinks();
+        showPage(1);
+    }
 })();

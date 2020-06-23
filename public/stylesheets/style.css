@@ -45,7 +45,7 @@ input[type=submit] {
   border: 0;
 }
 
-  a.button:hover, input[type=submit]:hover {
+  a.button:hover, input[type=submit]:hover, button.button:hover {
     background-color: #01b189;
   }
 
@@ -109,21 +109,20 @@ input[type=text] {
 }
 
 button.button {
-  margin-left: .3rem;
+  margin-left: .4rem;
   font-weight: bold;
   border: none;
 }
+
+.index-home-btn {
+  margin-left: .4rem;
+}
+
 .main-container {
   padding: 10px 50px 50px;
 }
 
-.search-form {
-  /* display: flex;
-  justify-content: flex-end; */
-}
-
 .stringMatched{
-  /* background-color: #dcdcdc; */
   background-color: #cccccc;
 }
 
@@ -137,10 +136,8 @@ button.button {
   color: black;
   float: left;
   padding: 8px 16px;
-  /* font-size: 14px; */
   text-decoration: none;
   transition: background-color .3s;
-  /* margin: 1rem 4px */
 }
 
 .pagination a.active {

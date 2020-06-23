@@ -96,7 +96,7 @@ router.get('/search', asyncHandler(async (req, res) => {
       books.push(thisBook);
     });
 
-    console.log(books);
+    //render the table with the books found, also send back the query to keep it in the search bar
     res.render("index", { books, title: "Books", inputValue: req.query.search });
   } else {
     res.status(404).render("books/page_not_found", { error: 404, title: "Page Not Found!" });

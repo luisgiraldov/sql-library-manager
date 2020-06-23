@@ -17,7 +17,7 @@ app.use("/static", express.static("public"));
 //To be able to use req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+//routes
 app.use('/', routes);
 app.use('/books', books);
 

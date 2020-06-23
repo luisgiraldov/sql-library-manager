@@ -2,6 +2,7 @@ extends layout.pug
 block content 
     p
         a.button(href="/books/new") Create New Book
+        a.button(href="/", class="index-home-btn") Home
     table
         thead
             tr
@@ -17,8 +18,5 @@ block content
                     td !{book.author}
                     td !{book.genre}
                     td= book.year
-    //- div.pagination
-    //-     each book in books
-    //-         a(href="#")
 
                     
