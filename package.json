@@ -20,7 +20,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "lodash.update": "^4.10.2",
-    "pug": "^3.0.0",
+    "pug": "^3.0.1",
     "sequelize": "^5.22.3",
     "sqlite3": "^4.2.0"
   },
